@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Blahbity-blog (CRDT edition)</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/thumb.png">
+    <link rel="stylesheet" href="/vendor/new.css/1.1.2/new.css">
+    <style>
+      :root {
+        --nc-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --nc-font-mono: 'Courier New', Courier, 'Ubuntu Mono', 'Liberation Mono', monospace;
+        --nc-tx-1: #333;
+        --nc-tx-2: #333;
+        --nc-bg-1: #FFFFFF;
+        --nc-bg-2: #F6F8FA;
+        --nc-bg-3: #E5E7EB;
+        --nc-lk-1: #0070F3;
+        --nc-lk-2: #0366D6;
+        --nc-lk-tx: #FFFFFF;
+        --nc-ac-1: #79FFE1;
+        --nc-ac-tx: #0C4047;
+      }
+      bb-composer {
+        display: block;
+      }
+      bb-composer button {
+        margin-bottom: 8px;
+      }
+      bb-composer p {
+        margin: 0 0 5px;
+      }
+      bb-composer textarea,
+      bb-composer input {
+        padding: 5px;
+      }
+      bb-composer input {
+        margin-right: 10px;
+        border: 1px solid #bbb;
+      }
+      bb-composer textarea {
+        width: 100%;
+        min-height: 80px;
+        box-sizing: border-box;
+      }
+      bb-composer small {
+        white-space: nowrap;
+      }
+      bb-composer .preview {
+        margin: 10px 20px 20px;
+      }
+      bb-composer .preview:before {
+        content: "Preview:";
+        display: block;
+        margin: 0 -20px 10px;
+      }
+      bb-feed {
+        display: block;
+        margin: 1em 0;
+      }
+      bb-feed-post {
+        display: grid;
+        grid-gap: 0;
+        grid-template-columns: 60px 1fr;
+        grid-template-rows: auto auto;
+        margin: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+      }
+      bb-feed-post h1 { font-size: 21px; }
+      bb-feed-post h2 { font-size: 20px; }
+      bb-feed-post h3 { font-size: 19px; }
+      bb-feed-post h4 { font-size: 18px; }
+      bb-feed-post h5 { font-size: 17px; }
+      bb-feed-post h6 { font-size: 16px; }
+      bb-feed-post .thumb {
+        grid-row-start: 1;
+        grid-row-end: 3;
+      }
+      bb-feed-post .thumb img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      bb-feed-post .meta {
+        margin-bottom: 5px;
+      }
+      bb-feed-post .day {
+        float: right;
+        opacity: 0.7;
+      }
+      bb-feed-post .content {
+        min-height: 26px;
+      }
+      bb-feed-post iframe.content {
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      .preview.content > *,
+      bb-feed-post .content > * {
+        margin: 0;
+      }
+      .preview.content > * + *,
+      bb-feed-post .content > * + * {
+        margin-top: 1rem;
+      }
+      bb-feed-post .content img,
+      bb-feed-post .content video {
+        max-width: 100%;
+      }
+      bb-feed-post-preview footer {
+        margin-top: 1rem;
+      }
+      bb-feed-post-preview footer:before {
+        content: "— ";
+      }
+      bb-link-card a {
+        display: flex;
+        height: 64px;
+        text-decoration: none;
+        color: var(--nc-tx-2);
+        background: var(--nc-bg-2);
+        border: 1px solid var(--nc-bg-3);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      bb-link-card a:hover {
+        background: var(--nc-bg-3);
+        color: var(--nc-tx-2);
+      }
+      bb-link-card a .thumb {
+        flex: 0 0 64px;
+        background-color: var(--nc-bg-3);
+        background-size: cover;
+        background-position: 50%;
+        background-image: url("./img/websites.png");
+      }
+      bb-link-card a .meta {
+        padding: 0.5rem 1rem;
+        overflow: hidden;
+      }
+      bb-link-card a .title,
+      bb-link-card a .host {
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      header .thumb {
+        float: left;
+        height: 86px;
+        padding-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img class="thumb" src="/thumb" />
+      <h1>Blahbity-blog</h1>
+      <p>Microblogging feed app (CRDT edition)</p>
+    </header>
+    <section>
+      <bb-composer></bb-composer>
+    </section>
+    <section>
+      <bb-feed></bb-feed>
+    </section>
+  </body>
+  <script type="module" src="/index.js"></script>
+</html>

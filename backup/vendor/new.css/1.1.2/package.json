@@ -1,0 +1,45 @@
+{
+  "_from": "@exampledev/new.css@1.1.2",
+  "_id": "@exampledev/new.css@1.1.2",
+  "_inBundle": false,
+  "_integrity": "sha512-C+/9qjeHC/ZTI8EQ6U65aCAqz1+ZLdOWFDCGyN6CptHnHQHRRFu79OZYKTXcyl3Ru1Fu8DE7nS22Uz/cVUvbqQ==",
+  "_location": "/@exampledev/new.css",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@exampledev/new.css@1.1.2",
+    "name": "@exampledev/new.css",
+    "escapedName": "@exampledev%2fnew.css",
+    "scope": "@exampledev",
+    "rawSpec": "1.1.2",
+    "saveSpec": null,
+    "fetchSpec": "1.1.2"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@exampledev/new.css/-/new.css-1.1.2.tgz",
+  "_shasum": "ca32d0f6141bb85dd3ec762e952966e546eb03e9",
+  "_spec": "@exampledev/new.css@1.1.2",
+  "_where": "/Volumes/Untitled/tmp/new.css",
+  "author": {
+    "name": "Example"
+  },
+  "bugs": {
+    "url": "https://github.com/xz/new.css/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A classless CSS framework to write modern websites using only HTML.",
+  "homepage": "https://newcss.net",
+  "license": "MIT",
+  "main": "new.css",
+  "name": "@exampledev/new.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xz/new.css.git"
+  },
+  "version": "1.1.2"
+}
