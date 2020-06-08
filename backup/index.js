@@ -1,4 +1,5 @@
 import * as api from './api.js'
+import BBSetup from './components/bb-setup.js'
 
 const IFRAME_CSP = `default-src 'self' 'unsafe-inline';`
 const IFRAME_SANDBOX = `allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox`
@@ -13,47 +14,7 @@ try {
   console.debug(e)
 }
 
-customElements.define(
-  'bb-setup',
-  class extends HTMLElement {
-    constructor () {
-      super()
-    }
-
-    async connectedCallback () {
-      this.append(
-        h(
-          'button',
-          { click: this.onClickChangeProfile.bind(this) },
-          'Select a profile on this machine to post with'
-        )
-      )
-      this.append(
-        h(
-          'button',
-          { click: this.onClickSetupRemote.bind(this) },
-          'Set up as a "remote" for a profile on another machine'
-        )
-      )
-    }
-
-    async onClickChangeProfile (e) {
-      e.preventDefault()
-      profile = await beaker.contacts.requestProfile()
-      localStorage.profile = JSON.stringify(profile)
-      localStorage.removeItem('remoteFor') 
-      location.reload()
-    }
-
-    async onClickSetupRemote (e) {
-      e.preventDefault()
-      localStorage.removeItem('profile') 
-      localStorage.removeItem('remoteFor') 
-      console.log('Setup remote')
-      location.reload()
-    }
-  }
-)
+customElements.define('bb-setup', BBSetup)
 
 customElements.define(
   'bb-composer',
