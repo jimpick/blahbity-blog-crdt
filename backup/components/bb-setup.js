@@ -8,16 +8,22 @@ export default class extends HTMLElement {
   async connectedCallback () {
     this.append(
       h(
-        'button',
-        { click: this.onClickChangeProfile.bind(this) },
-        'Select a profile on this machine to post with'
+        'div',
+        h(
+          'button',
+          { click: this.onClickChangeProfile.bind(this) },
+          'Select a profile on this machine to post with'
+        )
       )
     )
     this.append(
       h(
-        'button',
-        { click: this.onClickSetupRemote.bind(this) },
-        'Set up as a "remote" for a profile on another machine'
+        'div',
+        h(
+          'button',
+          { click: this.onClickSetupRemote.bind(this) },
+          'Set up as a "remote" for a profile on another machine'
+        )
       )
     )
   }
@@ -104,7 +110,6 @@ export default class extends HTMLElement {
     e.preventDefault()
     this.primaryProfile = this.querySelector('#primaryProfileUrl').value
     console.log('Submit', this.primaryProfile)
-    /*
     try {
       this.primaryProfileDrive = await beaker.hyperdrive.drive(
         this.primaryProfile
@@ -114,7 +119,6 @@ export default class extends HTMLElement {
       console.error('Error loading primary profile drive', this.primaryProfile)
       throw e
     }
-    */
     this.renderNicknameForm()
   }
 
