@@ -28,7 +28,7 @@ export async function loadFeed (progressCb = () => {}) {
       drive: contact.url,
       sort: 'ctime',
       reverse: true,
-      limit: 100,
+      limit: 200,
       timeout: 15e3
     }).catch(e => ([]))
     progressCb({label: 'Querying...', progress: (++numLoaded) / numToLoad})
@@ -37,7 +37,7 @@ export async function loadFeed (progressCb = () => {}) {
 
   var files = feedsFiles.flat()
   files.sort((a, b) => b.stat.ctime - a.stat.ctime)
-  return files.slice(0, 100).map(file => ({
+  return files.slice(0, 200).map(file => ({
     author: contacts.find(c => c.url === file.drive),
     url: file.url,
     filename: file.url.split('/').filter(Boolean).pop(),

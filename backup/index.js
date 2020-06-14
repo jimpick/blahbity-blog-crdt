@@ -1,20 +1,28 @@
 import * as api from './api.js'
 import BBSetup from './components/bb-setup.js'
+import BBReplicas from './components/bb-replicas.js'
 
 const IFRAME_CSP = `default-src 'self' 'unsafe-inline';`
 const IFRAME_SANDBOX = `allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox`
 
 const PATH = '/microblog/'
 var profile = undefined
-var remoteFor = undefined
+var remoteInfo = undefined
+
 try {
   profile = JSON.parse(localStorage.profile)
-  remoteFor = JSON.parse(localStorage.remoteFor)
+  remoteInfo = JSON.parse(localStorage.remoteInfo)
 } catch (e) {
   console.debug(e)
 }
 
 customElements.define('bb-setup', BBSetup)
+customElements.define('bb-replicas', BBReplicas)
+
+if (profile) {
+  const replicasEl = document.createElement('bb-replicas')
+  document.querySelector('header').appendChild(replicasEl)
+}
 
 customElements.define(
   'bb-composer',

@@ -36,6 +36,9 @@ customElements.define('pfrazee-microblog', class extends HTMLElement {
          content = h('p', h('video', {controls: true}, h('source', {src: file.path})))
         } else if (/\.(mp3|ogg)/i.test(file.path)) {
          content = h('p', h('audio', {controls: true}, h('source', {src: file.path})))
+        } else if (/\.goto?$/i.test(file.path)) {
+          let title = file.stat.metadata.title || filename
+          content = h('p', h('a', {href: file.stat.metadata.href, title}, title))
         } else if (/\.html?$/i.test(file.path)) {
           content = h('iframe', {
             class: 'content',
