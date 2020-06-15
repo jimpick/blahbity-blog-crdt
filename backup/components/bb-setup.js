@@ -6,6 +6,20 @@ export default class extends HTMLElement {
   }
 
   async connectedCallback () {
+    try {
+      this.remoteInfo = JSON.parse(localStorage.remoteInfo)
+      if (this.remoteInfo.state === 'created') {
+        this.replicaDrive = await beaker.hyperdrive.drive(
+          this.remoteInfo.replicaDriveUrl
+        )
+        this.primaryProfileUrl = this.remoteInfo.primaryProfileUrl
+        this.renderConnectToPrimaryForm()
+        return
+      }
+    } catch (e) {
+      console.debug('bb-setup load remoteInfo', e)
+    }
+
     this.append(
       h(
         'div',
@@ -101,7 +115,10 @@ export default class extends HTMLElement {
       h(
         'p',
         `Primary profile (on another machine):`,
-        h('p', h('a', { href: this.primaryProfileUrl }, this.primaryProfileUrl)),
+        h(
+          'p',
+          h('a', { href: this.primaryProfileUrl }, this.primaryProfileUrl)
+        ),
         h('div', `Title: ${this.primaryProfileInfo.title}`),
         h('div', `Description: ${this.primaryProfileInfo.description}`),
         h('img', {
@@ -146,14 +163,12 @@ export default class extends HTMLElement {
         primaryProfile: this.primaryProfileUrl
       })
     )
-    localStorage.setItem(
-      'remoteInfo',
-      JSON.stringify({
-        primaryProfileUrl: this.primaryProfileUrl,
-        replicaDriveUrl: this.replicaDrive.url,
-        state: 'created'
-      })
-    )
+    this.remoteInfo = {
+      primaryProfileUrl: this.primaryProfileUrl,
+      replicaDriveUrl: this.replicaDrive.url,
+      state: 'created'
+    }
+    localStorage.setItem('remoteInfo', JSON.stringify(this.remoteInfo))
     console.log('Jim', this.replicaDrive)
     this.renderConnectToPrimaryForm()
   }
@@ -163,20 +178,48 @@ export default class extends HTMLElement {
     this.append(
       h(
         'p',
-        `Primary profile (on another machine):`,
-        h('p', h('a', { href: this.primaryProfileUrl }, this.primaryProfileUrl))
-      ),
-      h(
-        'p',
         'A hyperdrive was created to host a replica on this machine:',
         h('p', this.replicaDrive.url),
         h('p', h('a', { href: this.replicaDrive.url }, 'Link'))
       ),
       h(
         'p',
-        'Now, go to your other machine that hosts your primary profile, ' +
-          'and add the URL for this replica.'
+        'Now, go to your other machine that hosts your ',
+        h('a', { href: this.primaryProfileUrl }, this.primaryProfileUrl),
+        ' and add the URL for this replica.'
+      ),
+      h(
+        'button',
+        { click: this.onCheckButtonClick.bind(this) },
+        'Check Primary'
       )
     )
+  }
+
+  async onCheckButtonClick (e) {
+    e.preventDefault()
+    console.log('Check')
+    // FIXME: Error checking
+    const primaryDrive = await beaker.hyperdrive.drive(this.primaryProfileUrl)
+    const replicas = await primaryDrive.readFile('replicas.json', 'json')
+    console.log('Replicas', replicas, this.replicaDrive.url)
+    console.log('this.replicaDrive.url', replicas, this.replicaDrive.url)
+    if (replicas.includes(this.replicaDrive.url)) {
+      console.log('Found')
+      this.remoteInfo = {
+        primaryProfileUrl: this.primaryProfileUrl,
+        replicaDriveUrl: this.replicaDrive.url,
+        state: 'connected'
+      }
+      localStorage.setItem('remoteInfo', JSON.stringify(this.remoteInfo))
+      const { url, title, description } = await primaryDrive.getInfo()
+      const profile = {
+        url,
+        title,
+        description
+      }
+      localStorage.setItem('profile', JSON.stringify(profile))
+      location.reload()
+    }
   }
 }

@@ -11,17 +11,34 @@ var remoteInfo = undefined
 
 try {
   profile = JSON.parse(localStorage.profile)
+} catch (e) {
+  console.debug('load profile', e)
+}
+try {
   remoteInfo = JSON.parse(localStorage.remoteInfo)
 } catch (e) {
-  console.debug(e)
+  console.debug('load remoteInfo', e)
 }
 
 customElements.define('bb-setup', BBSetup)
 customElements.define('bb-replicas', BBReplicas)
 
-if (profile) {
+if (profile && !remoteInfo) {
   const replicasEl = document.createElement('bb-replicas')
   document.querySelector('header').appendChild(replicasEl)
+}
+
+if (remoteInfo) {
+  document
+    .querySelector('header')
+    .appendChild(
+      h(
+        'div',
+        'Remote replica [',
+        h('a', { href: remoteInfo.primaryProfileUrl }, 'primary profile'),
+        ']'
+      )
+    )
 }
 
 customElements.define(
@@ -33,7 +50,9 @@ customElements.define(
     }
 
     async connectedCallback () {
-      if (!profile) {
+      if (!profile && !remoteInfo) {
+        this.append(h('bb-setup'))
+      } else if (remoteInfo && remoteInfo.state === 'created') {
         this.append(h('bb-setup'))
       } else {
         this.preview = h('div', {

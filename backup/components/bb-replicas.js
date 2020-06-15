@@ -42,10 +42,10 @@ export default class extends HTMLElement {
     this.append(
       h(
         'div',
-        { style: 'display: flex' },
+        { style: 'display: flex', class: 'replicas' },
         'Replicas:',
         h.apply(null, ['div', ...this.replicaElements]),
-        h('button', { click: this.onClickAddReplica.bind(this) }, '+')
+        h('button', { click: this.onClickAddReplica.bind(this) }, '＋')
       )
     )
   }
@@ -113,6 +113,7 @@ export default class extends HTMLElement {
         'replicas.json',
         JSON.stringify(this.replicas)
       )
+      location.reload()
     } catch (e) {
       // FIXME - show error in UI
       console.error('Error loading replica drive', replicaUrl)
